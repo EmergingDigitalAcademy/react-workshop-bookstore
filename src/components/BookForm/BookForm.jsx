@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
 
 function BookForm({ fetchBooks }) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-
-  const history = useHistory();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -15,9 +11,6 @@ function BookForm({ fetchBooks }) {
 
     await axios.post(`/books/`, {title: title, author: author});
     fetchBooks();
-
-    // Redirect the user back to the list
-    history.push('/');
   };
 
   return (
