@@ -1,23 +1,26 @@
 import axios from 'axios';
+import { Component } from 'react';
 
-function BookList({bookList, fetchBooks}) {
-  async function deleteBook(bookId) {
+class BookList extends Component {
+  deleteBook = async (bookId) => {
     await axios.delete(`/books/${bookId}`);
-    fetchBooks();
+    this.props.fetchBooks();
   }
 
-  return (
-    <section>
-      <h2>All Books</h2>
-      <ul>
-        {bookList.map((book, index) =>
-          <li key={index}>{book.title} by {book.author}
-            <button onClick={() => deleteBook(book.id)}>Delete</button>
-          </li>
-        )}
-      </ul>
-    </section>
-  );
+  render = () => {
+    return (
+      <section>
+        <h2>All Books</h2>
+        <ul>
+          {this.props.bookList.map((book, index) =>
+            <li key={index}>{book.title} by {book.author}
+              <button onClick={() => this.deleteBook(book.id)}>Delete</button>
+            </li>
+          )}
+        </ul>
+      </section>
+    );
+  }
 }
 
 export default BookList;

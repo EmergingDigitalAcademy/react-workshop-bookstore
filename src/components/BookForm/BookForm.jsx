@@ -1,42 +1,46 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { Component } from 'react';
 
-function BookForm({ fetchBooks }) {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
+class BookForm extends Component {
+  state = {
+    title: '',
+    author: '',
+  }
 
-  async function handleSubmit(event) {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`Adding book`, {title, author});
+    console.log(`Adding book`, this.state);
 
-    await axios.post(`/books/`, {title: title, author: author});
-    fetchBooks();
+    await axios.post(`/books/`, this.state);
+    this.props.fetchBooks();
   };
 
-  return (
-    <section>
-      <h2>Add Book</h2>
-      <form onSubmit={handleSubmit} className="add-book-form">
-        <input 
-          required 
-          placeholder="Title" 
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
+  render = () => {
+    return (
+      <section>
+        <h2>Add Book</h2>
+        <form onSubmit={this.handleSubmit} className="add-book-form">
+          <input
+            required
+            placeholder="Title"
+            value={this.state.title}
+            onChange={(event) => this.setState({...this.state, title: event.target.value})}
+          />
 
-        <input 
-          required 
-          placeholder="Author" 
-          value={author}
-          onChange={(event) => setAuthor(event.target.value)}
-        />
+          <input
+            required
+            placeholder="Author"
+            value={this.state.author}
+            onChange={(event) => this.setState({...this.state, author: event.target.value})}
+          />
 
-        <button type="submit">
-          Add Book
-        </button>
-      </form>
-    </section>
-  );
+          <button type="submit">
+            Add Book
+          </button>
+        </form>
+      </section>
+    );
+  }
 }
 
 export default BookForm;

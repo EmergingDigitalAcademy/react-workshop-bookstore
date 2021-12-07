@@ -1,30 +1,35 @@
-import { useEffect, useState } from 'react';
+import { Component } from 'react';
 import axios from 'axios';
+
 import Header from './Header';
 import BookList from '../BookList/BookList';
 import BookForm from '../BookForm/BookForm';
 
 import './App.css';
 
-function App() {
-  const [bookList, setBookList] = useState([]);
+class App extends Component {
+  state = {
+    bookList: []
+  } // bookList
 
-  const fetchBooks = async () => {
+  fetchBooks = async () => {
     const books = (await axios.get('/books')).data;
-    setBookList(books);
+    this.setState({ bookList: books });
   }
 
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+  componentDidMount = () => {
+    this.fetchBooks();
+  }
 
-  return (
-    <main className="App">
-      <Header />
-      <BookForm fetchBooks={fetchBooks} />
-      <BookList bookList={bookList} fetchBooks={fetchBooks} />
-    </main>
-  );
+  render = () => {
+    return (
+      <main className="App">
+        <Header />
+        <BookForm fetchBooks={this.fetchBooks} />
+        <BookList bookList={this.state.bookList} fetchBooks={this.fetchBooks} />
+      </main>
+    );
+  }
 }
 
 export default App;
