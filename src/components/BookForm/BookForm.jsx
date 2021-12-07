@@ -1,23 +1,20 @@
-import {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 
-function BookForm(props) {
+function BookForm({ fetchBooks }) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = event => {
+  async function handleSubmit(event) {
     event.preventDefault();
     console.log(`Adding book`, {title, author});
 
-    dispatch({
-      type: 'POST_BOOK',
-      payload: {title: title, author: author}
-    });
+    await axios.post(`/books/`, {title: title, author: author});
+    fetchBooks();
 
     // Redirect the user back to the list
     history.push('/');

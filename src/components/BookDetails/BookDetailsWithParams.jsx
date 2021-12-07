@@ -1,19 +1,14 @@
-import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
-function BookDetailsWithParams() {
-   let [book, setBook] = useState({});
-   let bookList = useSelector(store => store.bookList);
+function BookDetailsWithParams({ bookList }) {
+   let [book, setBook] = useState({title: undefined, author: undefined});
    const params = useParams();
+   const history = useHistory();
 
    useEffect(() => {
       // Grab the ID out of the URL
-      console.log('params are', params);
-      const bookId = Number(params.id);
-
-      const foundBook = bookList.find(book => Number(book.id) === Number(bookId));
-      console.log(`Found book with id ${bookId}: `, foundBook);
+      const foundBook = bookList.find(book => Number(book.id) === Number(params.id));
       if (foundBook) {
          setBook(foundBook);
       }
@@ -38,6 +33,7 @@ function BookDetailsWithParams() {
                </tr>
             </tbody>
          </table>
+         <button onClick={() => history.push('/')}>Go Back</button>
       </>
    );
 }

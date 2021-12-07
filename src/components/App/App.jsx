@@ -1,17 +1,25 @@
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from './Header';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import BookList from '../BookList/BookList';
 import BookForm from '../BookForm/BookForm';
 import BookDetailsWithParams from '../BookDetails/BookDetailsWithParams';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import Header from './Header';
-import { useEffect } from 'react';
+
 import './App.css';
 
 function App() {
-  const dispatch = useDispatch();
+  const [bookList, setBookList] = useState([]);
+
+  const fetchBooks = async () => {
+    const books = (await axios.get('/books')).data;
+    setBookList(books);
+  }
+  
   useEffect(() => {
-    dispatch({ type: 'FETCH_BOOKS' });
-  });
+    fetchBooks();
+  }, []);
 
   return (
     <main className="App">
@@ -19,13 +27,13 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/">
-            <BookList />
+            <BookList bookList={bookList} fetchBooks={fetchBooks} />
           </Route>
           <Route path="/newbook">
-            <BookForm />
+            <BookForm fetchBooks={fetchBooks}/>
           </Route>
           <Route path="/details/:id">
-            <BookDetailsWithParams />
+            <BookDetailsWithParams bookList={bookList} />
           </Route>
           <Route path="/">
             404 Not Found
