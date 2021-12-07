@@ -1,10 +1,11 @@
-# FS Redux (Sagas, Router, Details View)
+# React Training Workshop
 
-Pull down the code, npm install and setup a database called `fs-redux-books` w/ the provided `database.sql` file. 
+`npm install` will give you everything you need. There is a server, but it serves out data from memory (no database needed)
 
-Video of this development:
-https://vimeo.com/511211219/f79152bb1a
+  - `npm run server` to run the server
+  - `npm run client` to run the react app
 
-The `main` branch has an example of redux, sagas, react-router, AND a details view (done two ways) -- one simple details view using redux, and one using the same strategy but supporting url parameters like `/details/10`.
-
-See the `no-sagas` branch for the example code prior to the update that added sagas, react-router, and details view.
+Each branch has a fully functioning project.
+  - `master` has a component based project, no redux, no react router. **GOAL**: Convert to functional components and hooks. The `step1` branch has the solution for reference
+  - `step2` branch has a solution that includes react-router (no redux). 
+  - `step3` branch has a solution that includes react-router AND redux AND redux-sagas
