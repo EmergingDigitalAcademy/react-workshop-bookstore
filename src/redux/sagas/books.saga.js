@@ -6,10 +6,10 @@ function* fetchBooks() {
      let response = yield axios.get('/books');
      yield put({ type: 'SET_BOOKS', payload: response.data });
    } catch (error) {
-     console.log(`Error fetching books`, error);
+     yield put({ type: 'BOOKS_ERROR' });
    }
  }
- 
+
  function* postBook(action) {
    try {
      // action.payload: { title: 'book title', author: 'book author' }
@@ -19,7 +19,7 @@ function* fetchBooks() {
      console.log(`Error fetching books`, error);
    }
  }
- 
+
  function* deleteBook(action) {
    try {
      // action.payload: { title: 'book title', author: 'book author' }
@@ -29,7 +29,7 @@ function* fetchBooks() {
      console.log(`Error fetching books`, error);
    }
  }
- 
+
  export function* rootSaga() {
    // When our component dispatches FETCH_FRUIT, wake up
    // the fetchFruitSaga
